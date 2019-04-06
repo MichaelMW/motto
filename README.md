@@ -1,7 +1,9 @@
 # Motto
 Represent motifs in consensus sequences
 
-## test run
+## Getting started
+git clone https://github.com/MichaelMW/motto.git
+cd motto
 ./test.sh
 
 ## Features
@@ -11,9 +13,9 @@ Represent motifs in consensus sequences
 ![Benchmark](https://github.com/MichaelMW/motto/blob/master/figures/Fig3.benchmark.png "Benchmark")
 
 ## Web service
-![Web service](http://wanglab.ucsd.edu/star/motto/ "Web service")
+[Web service](http://wanglab.ucsd.edu/star/motto/ "Web service")
 
 ## Citation
 Biorxiv: WIP
-![Biorxiv]()
+[Biorxiv]()
 
