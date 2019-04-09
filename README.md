@@ -6,6 +6,20 @@ Represent motifs in consensus sequences
 git clone https://github.com/MichaelMW/motto.git
 cd motto
 ./test.sh
+
+### examples
+## default
+cat data/ctcf.meme | ./motto.py
+# CTCF_HUMAN.H10MO.A	NNNCCRSHAGRKGGCRSYVN
+
+## output style to compact
+cat data/ctcf.meme | ./motto.py -s compact
+# CTCF_HUMAN.H10MO.A	NNNCC[AG][CG][CTA]AG[GA][GT]GGC[GA][CG][TC][AGC]N
+
+## trim at both ends
+cat data/ctcf.meme | ./motto.py -s compact --trim
+# CTCF_HUMAN.H10MO.A	CC[AG][CG][CTA]AG[GA][GT]GGC[GA][CG][TC][AGC]
+
 ```
 ## Options
 ```
