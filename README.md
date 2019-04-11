@@ -59,8 +59,8 @@ optional arguments:
 ### Benchmark
 ![Benchmark](https://github.com/MichaelMW/motto/blob/master/figures/Fig3.benchmark.png "Benchmark")
 
-## Web service
-[Web service](http://wanglab.ucsd.edu/star/motto/ "Web service")
+## Supplementary webpage
+[Webpage](http://wanglab.ucsd.edu/star/motto/ "Webpage")
 
 ## Citation
 Biorxiv: WIP

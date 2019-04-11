@@ -16,8 +16,10 @@ def main():
 		help="Input meme format motif file")
 	parser.add_argument("-m", "--method", default="JSD",
 		help="Method: JSD, MSE, Douglas, Max")
-	parser.add_argument("-s", "--style", default="IUPAC", 
+	parser.add_argument("-s", "--style", default="compact", 
 		help="Output style: compact, regex, IUPAC (see: http://www.bioinformatics.org/sms/iupac.html)")
+	parser.add_argument("-d", "--delimiter", default="", 
+		help="Optional delimiter. Eg. -d '_' gives C_T_[AG]; use -d $'\t' for special chars.")
 	parser.add_argument("-p", "--penalty", default=0,
 		help="Penalty for ambiguity at each position [0,1]. Only works with -m JSD or MSE. Set to 0 (default) for no penalty. Set to 1 will give maximal penalty, and gives a single nucleotide with max frequency as the consensus.")
 	parser.add_argument("-M", "--maxAlphabet", default=None,
@@ -44,6 +46,7 @@ def main():
 			inData=f.read()
 	else:
 		inData=stdin.read()
+	delimiter = args.delimiter
 
 	# parsing input meme & init parameters
 	alphabet, motifPairs=parseMeme(inData)
@@ -56,7 +59,7 @@ def main():
 	# the main loop
 	# for each motif
 	for motifID, motifPWM in motifPairs:
-		motifKmer = ""
+		motifKmerList = []
 		kmerLists = []
 		# get kmerList 
 		for rates in motifPWM:
@@ -81,8 +84,8 @@ def main():
 		# convert to style
 		for kmerList in kmerLists:
 			kmer = kmerStyle(kmerList, style, IUPACdict, alphabet)
-			motifKmer += kmer
-		print(("{}\t{}".format(motifID,"".join(motifKmer))))
+			motifKmerList.append(kmer)
+		print(("{}\t{}".format(motifID,delimiter.join(motifKmerList))))
 	pass
 
 def kmerStyle(kmerList, style, IUPACdict, alphabet):
