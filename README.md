@@ -12,11 +12,11 @@ cd motto
 cat data/ctcf.meme | ./motto.py
 # CTCF_HUMAN.H10MO.A	NNNCC[AG][CG][CTA]AG[GA][GT]GGC[GA][CG][TC][AGC]N
 
-## output style to compact
+## output style to IUPAC (see http://www.bioinformatics.org/sms/iupac.html)
 cat data/ctcf.meme | ./motto.py -s IUPAC
 # CTCF_HUMAN.H10MO.A	NNNCCRSHAGRKGGCRSYVN
 
-## trim at both ends
+## trim off flanking Ns.
 cat data/ctcf.meme | ./motto.py -s IUPAC --trim
 # CTCF_HUMAN.H10MO.A	CCRSHAGRKGGCRSYV
 
