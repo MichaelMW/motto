@@ -63,6 +63,7 @@ optional arguments:
 [Webpage](http://wanglab.ucsd.edu/star/motto/ "Webpage")
 
 ## Citation
-Biorxiv: WIP
-[Biorxiv]()
+Biorxiv:
+Wang, Mengchi, David Wang, Kai Zhang, Vu Ngo, Shicai Fan, and Wei Wang. 2019. “Motto: Representing Motifs in Consensus Sequences with Minimum Information Loss.” BioRxiv, January, 607408. https://doi.org/10.1101/607408.
+[Biorxiv](https://www.biorxiv.org/content/10.1101/607408v1?rss=1)
 
