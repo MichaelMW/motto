@@ -1,6 +1,9 @@
 # Motto
 Represent motifs in consensus sequences
 
+## Requirement
+Any Python (developed in python v3.7; backward compatible with python v2.7)
+
 ## Getting started
 ```
 git clone https://github.com/MichaelMW/motto.git
@@ -53,9 +56,6 @@ optional arguments:
 ## Features
 ### Overview
 ![Overview](https://github.com/MichaelMW/motto/blob/master/figures/Fig1.overview.png "Overview")
-
-### Requirement
-Any Python (developed in python v3.7; backward compatible with python v2.7)
 
 ### Example Usage
 ![Example usage: CTCF](https://github.com/MichaelMW/motto/blob/master/figures/Fig2.1.ctcf.png "Example usage: CTCF")
