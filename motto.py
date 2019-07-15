@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import division
 from sys import argv, stdin, stderr
 from signal import signal, SIGPIPE, SIG_DFL
 from warnings import filterwarnings
