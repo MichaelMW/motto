@@ -22,10 +22,10 @@ def main():
                         help="Optional delimiter. Eg. -d '_' gives C_T_[AG]; use -d $'\t' for special chars.")
     parser.add_argument("-p", "--penalty", default=0,
                         help="Penalty for ambiguity at each position [0,1]. Only works with -m JSD or MSE. Set to 0 (default) for no penalty. Set to 1 will give maximal penalty, and gives a single nucleotide with max frequency as the consensus.")
-    parser.add_argument("-M", "--maxAlphabet", default=None,
-                        help="Max number of alphabets allowed for consensus at each position, only works when -m is set to JSD or MSE. Default: None, no restriction.")
+    parser.add_argument("-M", "--maxCharacter", default=None,
+                        help="Max number of characters allowed for consensus at each position, only works when -m is set to JSD or MSE. Default: None, no restriction.")
     parser.add_argument("-t", "--trim", action='store_true',
-                        help="Trim off ambiguous consensus alphabets (eg. [ACTG] or N) at both ends")
+                        help="Trim off ambiguous consensus characters (eg. [ACTG] or N) at both ends")
     args = parser.parse_args()
 
     # checking input arguments
@@ -38,7 +38,7 @@ def main():
         print("Unrecognized style: {}".format(style))
         exit()
     penalty = float(args.penalty)**2  # power for smoother transition
-    maxAlphabet = int(args.maxAlphabet) if args.maxAlphabet else None
+    maxCharacter = int(args.maxCharacter) if args.maxCharacter else None
     trim = args.trim
     if args.inMeme:
         inMeme = args.inMeme
@@ -49,13 +49,13 @@ def main():
     delimiter = args.delimiter
 
     # parsing input meme & init parameters
-    alphabet, motifPairs = parseMeme(inData)
-    if maxAlphabet:
+    character, motifPairs = parseMeme(inData)
+    if maxCharacter:
         refDists = [
-            [1/m if i < m else 0 for i in range(len(alphabet))] for m in range(1, maxAlphabet+1)]
+            [1/m if i < m else 0 for i in range(len(character))] for m in range(1, maxCharacter+1)]
     else:
         refDists = [
-            [1/m if i < m else 0 for i in range(len(alphabet))] for m in range(1, len(alphabet)+1)]
+            [1/m if i < m else 0 for i in range(len(character))] for m in range(1, len(character)+1)]
     IUPACdict = {"AG": "R", "CT": "Y", "CG": "S", "AT": "W", "GT": "K",
                  "AC": "M", "CGT": "B", "AGT": "D", "ACT": "H", "ACG": "V", "ACGT": "N"}
 
@@ -67,32 +67,32 @@ def main():
         # get kmerList
         for rates in motifPWM:
             if method == "douglas":
-                kmerList = Douglas(rates, alphabet)
+                kmerList = Douglas(rates, character)
             elif method == "jsd":
-                kmerList = rates2kmer(rates, refDists, alphabet, penalty)
+                kmerList = rates2kmer(rates, refDists, character, penalty)
             elif method == "mse":
-                kmerList = rates2kmer_mse(rates, refDists, alphabet, penalty)
+                kmerList = rates2kmer_mse(rates, refDists, character, penalty)
             elif method == "max":
-                kmerList = rates2kmer_max(rates, alphabet)
+                kmerList = rates2kmer_max(rates, character)
             else:
                 print(("Unrecognized method: {}".format(method)))
                 exit()
             kmerLists.append(kmerList)
         # check trim
         if trim:
-            while len(kmerLists[0]) == len(alphabet):
+            while len(kmerLists[0]) == len(character):
                 del kmerLists[0]
-            while len(kmerLists[-1]) == len(alphabet):
+            while len(kmerLists[-1]) == len(character):
                 del kmerLists[-1]
         # convert to style
         for kmerList in kmerLists:
-            kmer = kmerStyle(kmerList, style, IUPACdict, alphabet)
+            kmer = kmerStyle(kmerList, style, IUPACdict, character)
             motifKmerList.append(kmer)
         print(("{}\t{}".format(motifID, delimiter.join(motifKmerList))))
     pass
 
 
-def kmerStyle(kmerList, style, IUPACdict, alphabet):
+def kmerStyle(kmerList, style, IUPACdict, character):
     kmerSortedString = ''.join(sorted(kmerList))
     kmerString = ''.join(kmerList)
     kmer = "[{}]".format(kmerString)
@@ -101,7 +101,7 @@ def kmerStyle(kmerList, style, IUPACdict, alphabet):
     elif style == "iupac":
         kmer = IUPACdict.setdefault(kmerSortedString, kmer)
     elif style == "compact":
-        if len(kmerList) == len(alphabet):
+        if len(kmerList) == len(character):
             kmer = "N"
     return kmer
 
@@ -116,33 +116,33 @@ def parseMeme(inData):
         motifPWM = list(list(map(float, line.split())) for line in motifInfo.split(
             '\n')[2:] if re.match("^\s*[.0-9]", line))
         motifPairs.append([motifID, motifPWM])
-    alphabet = ''.join([line.lstrip("ALPHABET=").strip()
+    character = ''.join([line.lstrip("ALPHABET=").strip()
                         for line in header.split("\n") if re.match("ALPHABET*", line)])
-    pattern = '^[{}]'.format(alphabet)
-    return alphabet, motifPairs
+    pattern = '^[{}]'.format(character)
+    return character, motifPairs
 
 # convert a list of rates to regex style kmer at one position
 
 
-def rates2kmer(L, refDists, alphabet, penalty):
+def rates2kmer(L, refDists, character, penalty):
     keptInd = indMostInfo(L, refDists, penalty)
-    return [alphabet[i] for i in keptInd]
+    return [character[i] for i in keptInd]
 
 
-def rates2kmer_mse(L, refDists, alphabet, penalty):
+def rates2kmer_mse(L, refDists, character, penalty):
     keptInd = indMSE(L, refDists, penalty)
-    return [alphabet[i] for i in keptInd]
+    return [character[i] for i in keptInd]
 
 
-def rates2kmer_max(L, alphabet):
+def rates2kmer_max(L, character):
     sList, sIndex = list(
         zip(*sorted([(l, i) for i, l in enumerate(L)], reverse=True)))
-    return [alphabet[sIndex[0]]]
+    return [character[sIndex[0]]]
 
 # Douglas 1976 heuristic method
 
 
-def Douglas(L, alphabet):
+def Douglas(L, character):
     if len(L) != 4:
         print(("input format error! Has to be nucleotides! len(L)={}".format(len(L))))
         exit()
@@ -150,11 +150,11 @@ def Douglas(L, alphabet):
         sList, sIndex = list(
             zip(*sorted([(l, i) for i, l in enumerate(L)], reverse=True)))
         if sList[0] > 0.5 and sList[0] > sList[1]*2:
-            return [alphabet[sIndex[0]]]
+            return [character[sIndex[0]]]
         elif sList[0]+sList[1] > 0.75:
-            return [alphabet[sIndex[0]], alphabet[sIndex[1]]]
+            return [character[sIndex[0]], character[sIndex[1]]]
         else:
-            return [alphabet[sIndex[i]] for i in range(len(L))]
+            return [character[sIndex[i]] for i in range(len(L))]
 
 # return index of L that should be kept, based on min jsd between reference distribution and L
 
