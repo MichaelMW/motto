@@ -15,7 +15,7 @@ def main():
     parser.add_argument("-i", "--inMeme",
                         help="Input meme format motif file")
     parser.add_argument("-m", "--method", default="JSD",
-                        help="Method: JSD, MSE, Douglas, Max")
+                        help="Method: JSD, MSE, Cavener, Max")
     parser.add_argument("-s", "--style", default="compact",
                         help="Output style: compact, regex, IUPAC (see: http://www.bioinformatics.org/sms/iupac.html)")
     parser.add_argument("-d", "--delimiter", default="",
@@ -30,7 +30,7 @@ def main():
 
     # checking input arguments
     method = args.method.lower()
-    if method not in ["jsd", "mse", "douglas", "max"]:
+    if method not in ["jsd", "mse", "cavener", "max"]:
         print("Unrecognized method: {}".format(method))
         exit()
     style = args.style.lower()
@@ -66,8 +66,8 @@ def main():
         kmerLists = []
         # get kmerList
         for rates in motifPWM:
-            if method == "douglas":
-                kmerList = Douglas(rates, character)
+            if method == "cavener":
+                kmerList = Cavener(rates, character)
             elif method == "jsd":
                 kmerList = rates2kmer(rates, refDists, character, penalty)
             elif method == "mse":
@@ -139,10 +139,10 @@ def rates2kmer_max(L, character):
         zip(*sorted([(l, i) for i, l in enumerate(L)], reverse=True)))
     return [character[sIndex[0]]]
 
-# Douglas 1976 heuristic method
+# Cavener 1976 heuristic method
 
 
-def Douglas(L, character):
+def Cavener(L, character):
     if len(L) != 4:
         print(("input format error! Has to be nucleotides! len(L)={}".format(len(L))))
         exit()
