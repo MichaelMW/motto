@@ -14,23 +14,23 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--inMeme",
                         help="Input meme format motif file")
-    parser.add_argument("-m", "--method", default="JSD",
-                        help="Method: JSD, MSE, Cavener, Max")
+    parser.add_argument("-m", "--method", default="Motto",
+                        help="Method: Motto, MSE, Cavener, Max")
     parser.add_argument("-s", "--style", default="compact",
                         help="Output style: compact, regex, IUPAC (see: http://www.bioinformatics.org/sms/iupac.html)")
     parser.add_argument("-d", "--delimiter", default="",
                         help="Optional delimiter. Eg. -d '_' gives C_T_[AG]; use -d $'\t' for special chars.")
     parser.add_argument("-p", "--penalty", default=0,
-                        help="Penalty for ambiguity at each position [0,1]. Only works with -m JSD or MSE. Set to 0 (default) for no penalty. Set to 1 will give maximal penalty, and gives a single nucleotide with max frequency as the consensus.")
+                        help="Penalty for ambiguity at each position [0,1]. Only works with -m Motto or MSE. Set to 0 (default) for no penalty. Set to 1 will give maximal penalty, and gives a single nucleotide with max frequency as the consensus.")
     parser.add_argument("-M", "--maxCharacter", default=None,
-                        help="Max number of characters allowed for consensus at each position, only works when -m is set to JSD or MSE. Default: None, no restriction.")
+                        help="Max number of characters allowed for consensus at each position, only works when -m is set to Motto or MSE. Default: None, no restriction.")
     parser.add_argument("-t", "--trim", action='store_true',
                         help="Trim off ambiguous consensus characters (eg. [ACTG] or N) at both ends")
     args = parser.parse_args()
 
     # checking input arguments
     method = args.method.lower()
-    if method not in ["jsd", "mse", "cavener", "max"]:
+    if method not in ["motto", "mse", "cavener", "max"]:
         print("Unrecognized method: {}".format(method))
         exit()
     style = args.style.lower()
@@ -68,7 +68,7 @@ def main():
         for rates in motifPWM:
             if method == "cavener":
                 kmerList = Cavener(rates, character)
-            elif method == "jsd":
+            elif method == "motto":
                 kmerList = rates2kmer(rates, refDists, character, penalty)
             elif method == "mse":
                 kmerList = rates2kmer_mse(rates, refDists, character, penalty)
