@@ -26,30 +26,34 @@ cat data/ctcf.meme | ./motto.py -s IUPAC --trim
 ```
 ## Options
 ```
-usage: motto.py [-h] [-i INMEME] [-m METHOD] [-s STYLE] [-p PENALTY]
-                [-M MAXALPHABET] [-t]
+usage: motto.py [-h] [-i INMEME] [-m METHOD] [-s STYLE] [-d DELIMITER]
+                [-p PENALTY] [-M MAXCHARACTER] [-t]
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INMEME, --inMeme INMEME
                         Input meme format motif file
   -m METHOD, --method METHOD
-                        Method: JSD, MSE, Douglas, Max
+                        Method: Motto, MSE, Cavener, Max
   -s STYLE, --style STYLE
                         Output style: compact, regex, IUPAC (see:
                         http://www.bioinformatics.org/sms/iupac.html)
+  -d DELIMITER, --delimiter DELIMITER
+                        Optional delimiter. Eg. -d '_' gives C_T_[AG]; use -d
+                        $' ' for special chars.
   -p PENALTY, --penalty PENALTY
                         Penalty for ambiguity at each position [0,1]. Only
-                        works with -m JSD or MSE. Set to 0 (default) for no
+                        works with -m Motto or MSE. Set to 0 (default) for no
                         penalty. Set to 1 will give maximal penalty, and gives
                         a single nucleotide with max frequency as the
                         consensus.
-  -M MAXALPHABET, --maxAlphabet MAXALPHABET
-                        Max number of alphabets allowed for consensus at each
-                        position, only works when -m is set to JSD or MSE.
+  -M MAXCHARACTER, --maxCharacter MAXCHARACTER
+                        Max number of characters allowed for consensus at each
+                        position, only works when -m is set to Motto or MSE.
                         Default: None, no restriction.
-  -t, --trim            Trim off ambiguous consensus alphabets (eg. [ACTG] or
+  -t, --trim            Trim off ambiguous consensus characters (eg. [ACTG] or
                         N) at both ends
+
 ```
 
 
