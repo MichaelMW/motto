@@ -71,6 +71,7 @@ optional arguments:
 [Webpage](http://wanglab.ucsd.edu/star/motto/ "Webpage")
 
 ## Citation
-Wang, Mengchi, David Wang, Kai Zhang, Vu Ngo, Shicai Fan, and Wei Wang. 2019. “Motto: Representing Motifs in Consensus Sequences with Minimum Information Loss.” BioRxiv, 607408.
-[Biorxiv](https://www.biorxiv.org/content/10.1101/607408v1?rss=1)
-
+Mengchi Wang, David Wang, Kai Zhang, Vu Ngo, Shicai Fan, Wei Wang, 
+"Motto: Representing Motifs in Consensus Sequences with Minimum Information Loss." 
+Genetics, Volume 216, Issue 2, 1 October 2020, Pages 353–358, 
+[Genetics](https://doi.org/10.1534/genetics.120.303597)
