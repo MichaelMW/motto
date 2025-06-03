@@ -1,6 +1,10 @@
 # Motto
 Represent motifs in consensus sequences
 
+## Preview
+Run Motto instantly in your browser at
+[michaelmw.github.io/motto](https://michaelmw.github.io/motto/).
+
 ## Requirement
 Any Python (developed in python v3.7; backward compatible with python v2.7)
 
@@ -24,10 +28,6 @@ cat data/ctcf.meme | ./motto.py -s IUPAC --trim
 # CTCF_HUMAN.H10MO.A	CCRSHAGRKGGCRSYV
 
 ```
-## Preview
-Run Motto instantly in your browser at
-[michaelmw.github.io/motto](https://michaelmw.github.io/motto/).
-
 ## Options
 ```
 usage: motto.py [-h] [-i INMEME] [-m METHOD] [-s STYLE] [-d DELIMITER]
