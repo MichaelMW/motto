@@ -25,7 +25,8 @@ cat data/ctcf.meme | ./motto.py -s IUPAC --trim
 
 ```
 ## Preview
-Open [preview.html](preview.html) directly in your browser to run Motto without installing anything.
+Run Motto instantly in your browser at
+[michaelmw.github.io/motto](https://michaelmw.github.io/motto/).
 
 ## Options
 ```
