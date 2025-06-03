@@ -24,6 +24,9 @@ cat data/ctcf.meme | ./motto.py -s IUPAC --trim
 # CTCF_HUMAN.H10MO.A	CCRSHAGRKGGCRSYV
 
 ```
+## Preview
+Open [preview.html](preview.html) directly in your browser to run Motto without installing anything.
+
 ## Options
 ```
 usage: motto.py [-h] [-i INMEME] [-m METHOD] [-s STYLE] [-d DELIMITER]
